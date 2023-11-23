@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Extraction Web App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            height: 80vh; /* Set the height of the container */
+            overflow: auto; /* Enable scrolling when content overflows */
+        }
+        h1 {
+            background-color: #007bff; /* Blue background color */
+            color: #fff;
+            padding: 20px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input[type="file"] {
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #007bff; /* Blue border */
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background-color: #007bff; /* Blue background color */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            text-align: left;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        li::before {
+            content: "\2022"; /* Bullet point character */
+            color: #333;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        li.error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Text Extraction from Images/PDFs</h1>
+
+        <form method="POST" enctype="multipart/form-data" action="/extract_text">
+            <input type="file" name="file" accept=".jpg, .jpeg, .png, .pdf" required>
+            <br>
+            <input type="submit" value="Extract Text">
+        </form>
+
+        {% if extracted_text %}
+        <h2>Extracted Text:</h2>
+        <pre>{{ extracted_text }}</pre>
+        {% endif %}
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li class="error">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>
